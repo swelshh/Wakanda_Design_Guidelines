@@ -21,7 +21,7 @@ We will generally use [Principles of Writing Consistent, Idiomatic JavaScript](h
  _Exceptions_
  
  * we will use the default tab spacing and any other defaults built in to Wakanda rather than changing prefs
- * we generally won't pad inner parenthesis with spaces like this ( "no", "spaces" ), but instead will do it like this ("no", "spaces")
+ * we generally won't pad inner parenthesis with spaces like this ( "no", "spaces" ), but instead will do it like this ("no", "spaces").  See part 2D.
 
 
 
@@ -50,6 +50,11 @@ If we have a specific license for the code (eg MIT), the header will look like t
  */
 ```
 
+You should add one or more comment lines just above the functional subunits of your code (which should also be separated with white space). The idea is for another programmer to be able to read the comments of your method like a book. The header area and declarations are the table of contents, and the comments at the top of each block of code are the story.
+
+It is also important to add plenty of comments about complex data objects (like BLOBS), and any other complex concepts in the function which would be hard to understand if you were to look at the code later.
+
+_Err on the side of too many comments rather than too few._
 
 
 
@@ -64,6 +69,9 @@ If we have a specific license for the code (eg MIT), the header will look like t
 ### CSJS Module Template
 
 ```javascript
+//-------------------------------------------------------------------------
+//Description of the module
+//-------------------------------------------------------------------------
 CC.moduleName = (function () {
 "use strict"
 
