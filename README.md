@@ -50,7 +50,7 @@ If we have a specific license for the code (eg MIT), the header will look like t
  */
 ```
 
-You should add one or more comment lines just above the functional subunits of your code (which should also be separated with white space). The idea is for another programmer to be able to read the comments of your method like a book. The header area and declarations are the table of contents, and the comments at the top of each block of code are the story.
+You should add one or more comment lines just above the functional subunits of your code (which should also be separated with white space). The idea is for another programmer to be able to read the comments of your method like a book. The header area and declarations are the table of contents, and the comments at the top of each block of code are the story. People should be able to read the comments to understand what's going on and not have to look at any code.
 
 It is also important to add plenty of comments about complex data objects (like BLOBS), and any other complex concepts in the function which would be hard to understand if you were to look at the code later.
 
