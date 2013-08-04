@@ -1,6 +1,6 @@
 # General Javascript
 
-## Use Strict
+### Use Strict
 
 We will "use strict" everywhere we can.
 
@@ -10,7 +10,7 @@ _Exceptions_
 
 
 
-## JSLint
+### JSLint
 Every js file must pass JSLint.  We do want to allow 
 
 
@@ -61,7 +61,7 @@ If we have a specific license for the code (eg MIT), the header will look like t
 
 # CSJS
 
-## CSJS Module Template
+### CSJS Module Template
 
 ```javascript
 CC.moduleName = (function () {
@@ -115,7 +115,7 @@ CC.moduleName = (function () {
 
 
 
-## Example async call for save
+### Example async call for save
 
 ```javascript
 //function that makes an async call
@@ -133,7 +133,7 @@ function async_save(event) {
 
 
 
-## Example async call for query (with userData)
+### Example async call for query (with userData)
 
 ```javascript
 //function that makes an async call
