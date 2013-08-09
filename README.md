@@ -11,7 +11,13 @@ _Exceptions_
 
 
 ### JSLint
-Every js file must pass JSLint.  We do want to allow 
+Every js file must pass JSLint...  sort of.  
+
+_Exceptions_
+
+* We do want to use the 'tolerate misordered definitions' option, so you actually need to comment out "use strict" when running jslint.  Its usually best to run it with and without "use strict" to make sure you catch everytyhing.
+
+* Some of the Wakanda templates (eg the js files for components) will not pass jslint, and these are locked areas we cannot change...  so don't worry about it (maybe we'll get jshint up and running)
 
 
 
@@ -23,7 +29,7 @@ We will generally use [Principles of Writing Consistent, Idiomatic JavaScript](h
  * we will use the default tab spacing and any other defaults built in to Wakanda rather than changing prefs
  * we generally won't pad inner parenthesis with spaces like this ( "no", "spaces" ), but instead will do it like this ("no", "spaces").  See part 2D.
 
-
+We will use double quotes for strings instead of single quotes.
 
 ### Comments
 Every JS file must have a header comment that looks like this:
@@ -54,9 +60,15 @@ You should add one or more comment lines just above the functional subunits of y
 
 It is also important to add plenty of comments about complex data objects (like BLOBS), and any other complex concepts in the function which would be hard to understand if you were to look at the code later.
 
+A comment should always have a blank line above it (except the main header comment at the top of the page).
+
 _Err on the side of too many comments rather than too few._
 
 
+
+
+### Equality
+We never use == or !=, only use === or !==, unless you have a really good reason and you specify the reason in comments.
 
 
 
@@ -66,7 +78,61 @@ _Err on the side of too many comments rather than too few._
 
 # CSJS
 
-### CSJS Module Template
+
+
+### Naming Conventions
+We don't care about giving the widgets on a page a meaningful ID, but we do want to give them a meaningful name in our code (see examples in the module templates below).
+
+Here are the prefixes we will use:
+* Grid = Grid (eg dayGrid)
+* Button = Btn
+* Text Input = Fld
+* Rich Text = Text
+* sources.sourceName = sourceNameSource
+
+
+### Async
+Any Wakanda command that can be run async should be run async unless there is a good reason not to.  If not run async, there should be a comment explaining why.
+
+
+### Example async call for save
+
+```javascript
+//function that makes an async call
+function save() {
+	sources.className.save(async_save);
+}
+	
+//function to handle callback from the server
+function async_save(event) {
+	if ( CC.page.thereWasntAnError (event) ) {
+		doStuff();
+	}
+}
+```
+
+
+### Example async call for query (with userData)
+
+```javascript
+//function that makes an async call
+function query(date) {
+	var param1 = "value";
+	sources.className.query("something = :1", async_query, {params:[param1], 
+			userData: {info: "if we need anything in the callback"}});
+}
+
+//function to handle callback from the server
+function async_query(event) {
+	if ( CC.page.thereWasntAnError (event) ) {
+		var infoWeNeed = event.userData.info;
+		doStuff(infoWeNeed);
+	}
+}
+```
+
+
+### CSJS Module Template (non-component)
 
 ```javascript
 //-------------------------------------------------------------------------
@@ -75,10 +141,11 @@ _Err on the side of too many comments rather than too few._
 CC.moduleName = (function () {
 "use strict"
 
-	//pull any widgets into meaningfully named variables and
+	//pull any widgets, datasources into meaningfully named variables and
 	//declare any other variables
 	var meaningfullName1 = $$("widgetID1"),
 		meaningfullName2 = $$("widgetID2"),
+		somethingSource = sources.something,
 		whateverElse = {};
 	
 	//init
@@ -122,39 +189,84 @@ CC.moduleName = (function () {
 ```
 
 
+### CSJS Module Template (component)
 
-### Example async call for save
+```Javascript
+(function Component (id) {
 
-```javascript
-//function that makes an async call
-function save() {
-	sources.className.save(async_save);
-}
+// Add the code that needs to be shared between components here
+
+function constructor (id) {
+	"use strict";
 	
-//function to handle callback from the server
-function async_save(event) {
-	if ( CC.page.thereWasntAnError (event) ) {
-		doStuff();
+	// @region beginComponentDeclaration
+	var $comp = this;
+	this.name = 'componentName';
+	// @endregion
+
+
+	//-------------------------------------------------------------------------
+	//Component API
+	//-------------------------------------------------------------------------
+	//pull any widgets, datasources into meaningfully named variables and
+	//declare any other variables
+	var meaningfullName1 = $$(getHtmlId("widgetID1")),
+		meaningfullName2 = $$(getHtmlId("widgetID2")),
+		somethingSource = sources.something,
+		whateverElse = {};
+
+	//init
+	function initC() {
+		
+		//add event listeners if there are any
+		WAF.addListener(meaningfullName1, "click", function(event) {
+			doSomething();
+		});
+		
+		//anything else we need to do to init
+		
 	}
+	
+	//define private functions
+	function doSomething() {
+		//code
+	}
+	
+	//define public functions in the same way (but add to public api below)
+	function availableOutside() {
+		//code
+	}
+	
+	//make accessor functions if the outside world needs access
+	//to anything in our module
+	function getMeaningfullName1() {
+		return getMeaningfullName1.getValue();
+	}
+	
+	//--------------------
+	//public API
+	//--------------------
+	this.initC = initC;
+	this.availableOutside = availableOutside;
+
+
+	this.load = function (data) {
+
+	// @region namespaceDeclaration
+	// @endregion
+
+	// NOTE: we generally won't put any code here...  we will have a page_init.js file that will handle initializing everything including components.
+
+	// @region eventManager
+	// @endregion
+
+	};
+
+
 }
+return constructor;
+})();
 ```
 
 
 
-### Example async call for query (with userData)
-
-```javascript
-//function that makes an async call
-function query(date) {
-	var param1 = "value";
-	sources.className.query("something = :1", async_query, {params:[param1], userData: {info: "if we need anything in the callback"}});
-}
-
-//function to handle callback from the server
-function async_query(event) {
-	if ( CC.page.thereWasntAnError (event) ) {
-		var infoWeNeed = event.userData.info;
-		doStuff(infoWeNeed);
-	}
-}
-```
