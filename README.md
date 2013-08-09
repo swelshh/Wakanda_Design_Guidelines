@@ -92,7 +92,7 @@ Here are the prefixes we will use:
 
 
 ### Async
-Any Wakanda command that can be run async should be run async unless there is a good reason not to.  If not run async, there should be a comment explaining why.
+Any Wakanda command that can be run async should be run async unless there is a good reason not to.  If you do not run async, there should be a comment explaining why.
 
 
 ### Example async call for save
@@ -105,7 +105,7 @@ function save() {
 	
 //function to handle callback from the server
 function async_save(event) {
-	if ( CC.page.thereWasntAnError (event) ) {
+	if (WAKL.err.async_thereWasntAnError(event)) {
 		doStuff();
 	}
 }
@@ -124,7 +124,7 @@ function query(date) {
 
 //function to handle callback from the server
 function async_query(event) {
-	if ( CC.page.thereWasntAnError (event) ) {
+	if (WAKL.err.async_thereWasntAnError(event)) {
 		var infoWeNeed = event.userData.info;
 		doStuff(infoWeNeed);
 	}
