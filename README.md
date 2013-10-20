@@ -22,7 +22,7 @@ _Exceptions_
 
 
 ### Javascript Style
-We will generally use [Principles of Writing Consistent, Idiomatic JavaScript](https://github.com/rwldrn/idiomatic.js/) as a style guide for our javascript.
+We will generally follow the [Naming Conventions](http://doc.wakanda.org/WakandaStudio0/help/Title/en/page1812.html) described in the Wakanda documentation.  We will also generally use [Principles of Writing Consistent, Idiomatic JavaScript](https://github.com/rwldrn/idiomatic.js/) as a style guide for our javascript.
 
  _Exceptions_
  
@@ -89,6 +89,13 @@ Here are the prefixes we will use:
 * Text Input = Fld
 * Rich Text = Text
 * sources.sourceName = sourceNameSource
+
+
+
+### Wakanda General
+
+* The "Initial Query" property of all data sources should always be turned off
+
 
 
 ### Async
