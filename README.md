@@ -88,7 +88,6 @@ Here are the prefixes we will use:
 * Button = Btn
 * Text Input = Fld
 * Rich Text = Text
-* sources.sourceName = sourceNameSource
 
 
 
