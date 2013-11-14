@@ -79,6 +79,10 @@ We never use == or !=, only use === or !==, unless you have a really good reason
 # CSJS
 
 
+### Javascript General
+
+Maintainable Javascript book says: "It’s always best to split application logic from any event handler, because the same logic may need to be triggered by different actions in the future."
+
 
 ### Naming Conventions
 We don't care about giving the widgets on a page a meaningful ID, but we do want to give them a meaningful name in our code (see examples in the module templates below).
