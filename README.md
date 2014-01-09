@@ -76,7 +76,12 @@ We never use == or !=, only use === or !==, unless you have a really good reason
 
 
 
-# CSJS
+
+
+
+
+
+# Wakanda JS
 
 
 ### Javascript General
@@ -87,12 +92,21 @@ Maintainable Javascript book says: "It’s always best to split application logi
 ### Naming Conventions
 We don't care about giving the widgets on a page a meaningful ID, but we do want to give them a meaningful name in our code (see examples in the module templates below).
 
-Here are the prefixes we will use:
+Here are the suffixes we will use:
+
 * Grid = Grid (eg dayGrid)
 * Button = Btn
 * Text Input = Fld
 * Rich Text = Text
+* Component = Comp
 
+When working with a datastore class entity, generally name it the same as the class but with the first char lowercase:
+
+* myClass = ds.MyClass.find(1);
+
+When working with a datastore class collection, same rule as an entity but suffix with Coll:
+
+* myClassColl = ds.MyClass.find("id > 5");
 
 
 ### Wakanda General
@@ -201,41 +215,41 @@ CC.moduleName = (function () {
 
 ### CSJS Module Template (component)
 
+A few notes on datasources in components:
+
+* All datasources should be local unless there is a good reason to be global (and if global it should be documented as to why)
+* Always turn off the "Initial Query" property
+
 ```Javascript
+/** 
+ * @fileOverview Code for the [name] component
+ * @author Welsh Harris
+ * @created 1/09/2014
+ */
+ 
 (function Component (id) {
+"use strict";
 
 // Add the code that needs to be shared between components here
 
 function constructor (id) {
-	"use strict";
-	
+
 	// @region beginComponentDeclaration
 	var $comp = this;
-	this.name = 'componentName';
+	this.name = 'campSelDlg';
 	// @endregion
 
+	this.load = function (data) {
+
+	// @region namespaceDeclaration
+	// @endregion
 
 	//-------------------------------------------------------------------------
-	//Component API
+	//component API
 	//-------------------------------------------------------------------------
-	//pull any widgets, datasources into meaningfully named variables and
-	//declare any other variables
-	var meaningfullName1 = $$(getHtmlId("widgetID1")),
-		meaningfullName2 = $$(getHtmlId("widgetID2")),
-		somethingSource = sources.something,
-		whateverElse = {};
-
-	//init
-	function initC() {
-		
-		//add event listeners if there are any
-		WAF.addListener(meaningfullName1, "click", function(event) {
-			doSomething();
-		});
-		
-		//anything else we need to do to init
-		
-	}
+	var cs = $comp.sources,
+		cw = $comp.widgets,
+		exampleBtn = cw.button1;
 	
 	//define private functions
 	function doSomething() {
@@ -249,24 +263,30 @@ function constructor (id) {
 	
 	//make accessor functions if the outside world needs access
 	//to anything in our module
-	function getMeaningfullName1() {
-		return getMeaningfullName1.getValue();
+	function getEntity() {
+		return cs.dataSource.getCurrentElement();
 	}
 	
-	//--------------------
+	//-------------------------------------------------------------------------
+	// eventHandlers
+	//-------------------------------------------------------------------------
+	
+	//add event listeners
+	WAF.addListener(exampleBtn, "click", function(event) {
+		doSomething();
+	});
+		
+	//-------------------------------------------------------------------------
+	//on load
+	//-------------------------------------------------------------------------
+	
+	//load data and nested components
+	
+	//-------------------------------------------------------------------------
 	//public API
-	//--------------------
-	this.initC = initC;
-	this.availableOutside = availableOutside;
-
-
-	this.load = function (data) {
-
-	// @region namespaceDeclaration
-	// @endregion
-
-	// NOTE: we generally won't put any code here...  we will have a page_init.js file that will handle initializing everything including components.
-
+	//-------------------------------------------------------------------------
+	$comp.availableOutside = availableOutside;
+	
 	// @region eventManager
 	// @endregion
 
