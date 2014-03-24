@@ -71,6 +71,8 @@ _Err on the side of too many comments rather than too few._
 We never use == or !=, only use === or !==, unless you have a really good reason and you specify the reason in comments.
 
 
+### HTML and CSS Style
+Generally use [Code Guide by @mdo](http://mdo.github.io/code-guide/) as a style guide for our html and css.
 
 
 
